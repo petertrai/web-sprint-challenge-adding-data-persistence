@@ -1,18 +1,25 @@
-// const db = require('../../data/dbConfig')
+const db = require('../../data/dbConfig')
 
-// async function get() {
-//     const result = await db('resources as r')
-//     return result
-// }
+async function get() {
+    const result = await db('projects')
+    return result
+}
 
-// async function post(resource) {
-//     const result = await db('resources as r').insert(resource)
-//     return result
-// }
+async function getProjectById(id) {
+    const result = await db('projects').where('project_id', id).first()
+    return result
+}
+
+async function post(project) {
+    const [id] = await db('projects as p').insert(project)
+    const insertedProject = await getProjectById(id)
+    return insertedProject
+}
 
 
 
-// module.exports = {
-//     get,
-//     post,
-// }
+module.exports = {
+    get,
+    getProjectById,
+    post,
+}

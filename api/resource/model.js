@@ -6,14 +6,21 @@ async function get() {
     return result
 }
 
-async function post(resource) {
-    const result = await db('resources as r').insert(resource)
+async function getResourceById(id) {
+    const result = await db('resources').where('resource_id', id).first()
     return result
+}
+
+async function post(resource) {
+    const [id] = await db('resources as r').insert(resource)
+    const insertedResource = await getResourceById(id)
+    return insertedResource
 }
 
 
 
 module.exports = {
     get,
+    getResourceById,
     post,
 }
